@@ -10,6 +10,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.2.5",
+    "canvas-arbitrary-quads": "^1.0.0",
     "craco-less": "^1.17.0",
     "firebase": "^7.14.5",
     "firebaseui": "^4.5.0",

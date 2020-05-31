@@ -7,6 +7,8 @@ import * as serviceWorker from './serviceWorker';
 import * as firebase from "firebase";
 import firebaseConfig from './firebase';
 import {createWorker} from 'tesseract.js';
+import { createCanvas, loadImage } from 'canvas';
+import { drawArbitraryQuadImage, FILL_METHOD } from 'canvas-arbitrary-quads';
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -79,9 +81,27 @@ chrome.runtime.sendMessage(EXTENSION_ID, request, response => {
             await worker.load();
             await worker.loadLanguage('eng');
             await worker.initialize('eng');
-            const {data: {text}} = await worker.recognize(cropCanvas(canvas, width * 0.344921875, height * 0.51597222222, width * 0.02890625, height * 0.03055555555).toDataURL());
-            console.log("tank" + text);
-            await worker.terminate();
+            const srcPoints = [
+              { x: width * (894 / 2560), y: height * (747 / 1440) },
+              { x: width * (882 / 2560), y: height * (782 / 1440) },
+              { x: width * (955 / 2560), y: height * (782 / 1440) },
+              { x: width * (965 / 2560), y: height * (747 / 1440) },
+            ];
+
+            const dstPoints = [
+              { x: width * (894 / 2560), y: height * (747 / 1440) },
+              { x: width * (894 / 2560), y: height * (782 / 1440) },
+              { x: width * (965 / 2560), y: height * (782 / 1440) },
+              { x: width * (965 / 2560), y: height * (747 / 1440) },
+            ];
+
+            loadImage(canvas.toDataURL()).then(async function(image) {
+              drawArbitraryQuadImage(canvas.getContext('2d'), image, srcPoints, dstPoints, FILL_METHOD.BILINEAR);
+
+              const {data: {text}} = await worker.recognize(cropCanvas(canvas, width * 0.344921875, height * 0.51597222222, width * 0.02890625, height * 0.03055555555).toDataURL());
+              console.log("tank" + text);
+              await worker.terminate();
+            });
           })();
 
           const worker2 = createWorker();
