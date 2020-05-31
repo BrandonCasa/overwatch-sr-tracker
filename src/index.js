@@ -7,14 +7,16 @@ import * as serviceWorker from './serviceWorker';
 import * as firebase from "firebase";
 import firebaseConfig from './firebase';
 import {createWorker} from 'tesseract.js';
-import { drawArbitraryQuadImage, FILL_METHOD } from 'canvas-arbitrary-quads';
+import Jimp from 'jimp';
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 ReactDOM.render(
-    <App/>,
+    <React.StrictMode>
+      <App/>
+    </React.StrictMode>,
     document.getElementById('root')
 );
 

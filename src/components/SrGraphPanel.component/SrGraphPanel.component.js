@@ -279,17 +279,29 @@ class SrGraphPanel extends Component {
             const db = firebase.firestore();
 
             if (this.state.selectedSrInputRole === "tank") {
+              db.collection("users").doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
+                let array = snapshot.data().tanksrdata;
+                array.push(this.state.inputSr);
                 db.collection("users").doc(firebase.auth().currentUser.uid).update({
-                    tanksrdata: firebase.firestore.FieldValue.arrayUnion(this.state.inputSr)
+                  tanksrdata: array
                 });
+              });
             } else if (this.state.selectedSrInputRole === "damage") {
+              db.collection("users").doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
+                let array = snapshot.data().damagesrdata;
+                array.push(this.state.inputSr);
                 db.collection("users").doc(firebase.auth().currentUser.uid).update({
-                    damagesrdata: firebase.firestore.FieldValue.arrayUnion(this.state.inputSr)
+                  damagesrdata: array
                 });
+              });
             } else if (this.state.selectedSrInputRole === "support") {
+              db.collection("users").doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
+                let array = snapshot.data().supportsrdata;
+                array.push(this.state.inputSr);
                 db.collection("users").doc(firebase.auth().currentUser.uid).update({
-                    supportsrdata: firebase.firestore.FieldValue.arrayUnion(this.state.inputSr)
+                  supportsrdata: array
                 });
+              });
             }
         }
 
@@ -298,30 +310,39 @@ class SrGraphPanel extends Component {
 
             if (this.state.selectedRemoveMatchRole === "tank") {
                 db.collection("users").doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
-                    db.collection("users").doc(firebase.auth().currentUser.uid).update({
-                        tanksrdata: firebase.firestore.FieldValue.arrayRemove(snapshot.data().tanksrdata[parseInt(this.state.selectedMatchString.split(' ')[1]) - 1])
-                    });
+                  let array = snapshot.data().tanksrdata;
+                  array.splice(parseInt(this.state.selectedMatchString.split(' ')[1]) - 1, 1);
+
+                  db.collection("users").doc(firebase.auth().currentUser.uid).update({
+                    tanksrdata: array
+                  });
                     this.setState({
                         selectedMatchString: ""
                     });
                 });
             } else if (this.state.selectedRemoveMatchRole === "damage") {
                 db.collection("users").doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
-                    db.collection("users").doc(firebase.auth().currentUser.uid).update({
-                        damagesrdata: firebase.firestore.FieldValue.arrayRemove(snapshot.data().damagesrdata[parseInt(this.state.selectedMatchString.split(' ')[1]) - 1])
-                    });
+                  let array = snapshot.data().damagesrdata;
+                  array.splice(parseInt(this.state.selectedMatchString.split(' ')[1]) - 1, 1);
+
+                  db.collection("users").doc(firebase.auth().currentUser.uid).update({
+                    damagesrdata: array
+                  });
                     this.setState({
                         selectedMatchString: ""
                     });
                 });
             } else if (this.state.selectedRemoveMatchRole === "support") {
                 db.collection("users").doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
-                    db.collection("users").doc(firebase.auth().currentUser.uid).update({
-                        supportsrdata: firebase.firestore.FieldValue.arrayRemove(snapshot.data().supportsrdata[parseInt(this.state.selectedMatchString.split(' ')[1]) - 1])
-                    });
-                    this.setState({
-                        selectedMatchString: ""
-                    });
+                  let array = snapshot.data().supportsrdata;
+                  array.splice(parseInt(this.state.selectedMatchString.split(' ')[1]) - 1, 1);
+
+                  db.collection("users").doc(firebase.auth().currentUser.uid).update({
+                    supportsrdata: array
+                  });
+                  this.setState({
+                    selectedMatchString: ""
+                  });
                 });
             }
         }
