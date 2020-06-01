@@ -7,7 +7,8 @@ import * as serviceWorker from './serviceWorker';
 import * as firebase from "firebase";
 import firebaseConfig from './firebase';
 import {createWorker} from 'tesseract.js';
-import Jimp from 'jimp';
+import { createCanvas, loadImage } from 'canvas';
+import { drawArbitraryQuadImage, FILL_METHOD } from 'canvas-arbitrary-quads';
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

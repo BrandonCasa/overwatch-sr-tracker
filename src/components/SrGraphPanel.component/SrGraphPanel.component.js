@@ -25,101 +25,15 @@ class SrGraphPanel extends Component {
         const db = firebase.firestore();
 
         db.collection("users").doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
-            if (!snapshot.exists) {
+            if (!snapshot.exists) { //Check if user is in the database
+                //If the user isn't in the database add them to it...
+                //No reason to populate remove match as there will be no matches
                 db.collection("users").doc(firebase.auth().currentUser.uid).set({
                     tanksrdata: [],
                     damagesrdata: [],
                     supportsrdata: [],
-                }).then(() => {
-                    db.collection("users").doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
-                        if (snapshot.data().hasOwnProperty('tanksrdata')) {
-                            let numList = [];
-                            for (let i=1; i<=snapshot.data().tanksrdata.length; i++) {
-                                numList.push(i)
-                            }
-                            this.setState({
-                                tankMatches: numList
-                            });
-                        } else {
-                            this.setState({
-                                tankMatches: []
-                            });
-                        }
-
-                        if (snapshot.data().hasOwnProperty('damagesrdata')) {
-                            let numList = [];
-                            for (let i=1; i<=snapshot.data().damagesrdata.length; i++) {
-                                numList.push(i)
-                            }
-                            this.setState({
-                                damageMatches: numList
-                            });
-                        } else {
-                            this.setState({
-                                damageMatches: []
-                            });
-                        }
-
-                        if (snapshot.data().hasOwnProperty('supportsrdata')) {
-                            let numList = [];
-                            for (let i=1; i<=snapshot.data().supportsrdata.length; i++) {
-                                numList.push(i)
-                            }
-                            this.setState({
-                                supportMatches: numList
-                            });
-                        } else {
-                            this.setState({
-                                supportMatches: []
-                            });
-                        }
-
-                        db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot((snapshot) => {
-                            if (snapshot.data().hasOwnProperty('tanksrdata')) {
-                                let numList = [];
-                                for (let i=1; i<=snapshot.data().tanksrdata.length; i++) {
-                                    numList.push(i)
-                                }
-                                this.setState({
-                                    tankMatches: numList
-                                });
-                            } else {
-                                this.setState({
-                                    tankMatches: []
-                                });
-                            }
-
-                            if (snapshot.data().hasOwnProperty('damagesrdata')) {
-                                let numList = [];
-                                for (let i=1; i<=snapshot.data().damagesrdata.length; i++) {
-                                    numList.push(i)
-                                }
-                                this.setState({
-                                    damageMatches: numList
-                                });
-                            } else {
-                                this.setState({
-                                    damageMatches: []
-                                });
-                            }
-
-                            if (snapshot.data().hasOwnProperty('supportsrdata')) {
-                                let numList = [];
-                                for (let i=1; i<=snapshot.data().supportsrdata.length; i++) {
-                                    numList.push(i)
-                                }
-                                this.setState({
-                                    supportMatches: numList
-                                });
-                            } else {
-                                this.setState({
-                                    supportMatches: []
-                                });
-                            }
-                        });
-                    });
                 });
-            } else {
+            } else { //If it does exist, then populate remove match
                 db.collection("users").doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
                     if (snapshot.data().hasOwnProperty('tanksrdata')) {
                         let numList = [];
@@ -162,53 +76,9 @@ class SrGraphPanel extends Component {
                             supportMatches: []
                         });
                     }
-
-                    db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot((snapshot) => {
-                        if (snapshot.data().hasOwnProperty('tanksrdata')) {
-                            let numList = [];
-                            for (let i=1; i<=snapshot.data().tanksrdata.length; i++) {
-                                numList.push(i)
-                            }
-                            this.setState({
-                                tankMatches: numList
-                            });
-                        } else {
-                            this.setState({
-                                tankMatches: []
-                            });
-                        }
-
-                        if (snapshot.data().hasOwnProperty('damagesrdata')) {
-                            let numList = [];
-                            for (let i=1; i<=snapshot.data().damagesrdata.length; i++) {
-                                numList.push(i)
-                            }
-                            this.setState({
-                                damageMatches: numList
-                            });
-                        } else {
-                            this.setState({
-                                damageMatches: []
-                            });
-                        }
-
-                        if (snapshot.data().hasOwnProperty('supportsrdata')) {
-                            let numList = [];
-                            for (let i=1; i<=snapshot.data().supportsrdata.length; i++) {
-                                numList.push(i)
-                            }
-                            this.setState({
-                                supportMatches: numList
-                            });
-                        } else {
-                            this.setState({
-                                supportMatches: []
-                            });
-                        }
-                    });
                 });
             }
-        });
+        }); //Populate the remove match
     }
 
     render() {

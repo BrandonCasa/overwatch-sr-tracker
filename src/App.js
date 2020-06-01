@@ -8,20 +8,10 @@ import {
 } from "react-router-dom";
 import './App.css';
 import Home from "./pages/Home.page/Home.page";
-import * as firebase from "firebase";
-import * as firebaseui from "firebaseui";
-import SignIn from "./pages/signin/SignIn.page";
+import SignIn from "./pages/SignIn.page/SignIn.page";
+import Friends from "./pages/Friends.page/Friends.page";
 
 const { Header, Content, Footer } = Layout
-
-/*
-<Row>
-            <Col span={16}>
-
-            </Col>
-            <Col span={8}>GRAPH PANEL</Col>
-        </Row>
- */
 
 class App extends Component {
     constructor(props) {
@@ -33,27 +23,41 @@ class App extends Component {
             <div className="App">
                 <Router>
                     <Layout className="layout">
-                        <Header>
+                        <Header style={{ height: '64px' }}>
                             <div className="logo" />
-                            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-                                <Menu.Item key="1">
-                                    <Link to="/home">Home</Link>
-                                </Menu.Item>
-                                <Menu.Item key="2">
-                                    <Link to="friends">Friends</Link>
-                                </Menu.Item>
-                            </Menu>
+                            <Switch>
+                                <Route path="/friends" exact>
+                                    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+                                        <Menu.Item key="1">
+                                            <Link to="/home">Home</Link>
+                                        </Menu.Item>
+                                        <Menu.Item key="2">
+                                            <Link to="/friends">Friends</Link>
+                                        </Menu.Item>
+                                    </Menu>
+                                </Route>
+                                <Route path="/home" exact>
+                                    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+                                        <Menu.Item key="1">
+                                            <Link to="/home">Home</Link>
+                                        </Menu.Item>
+                                        <Menu.Item key="2">
+                                            <Link to="/friends">Friends</Link>
+                                        </Menu.Item>
+                                    </Menu>
+                                </Route>
+                            </Switch>
                         </Header>
                         <Content style={{ padding: '0 50px' }}>
                             <Switch>
                                 <Route path="/friends" exact>
-                                    Friends
+                                    <Friends />
                                 </Route>
                                 <Route path="/home" exact>
-                                    <Home></Home>
+                                    <Home />
                                 </Route>
                                 <Route path="/" exact>
-                                    <SignIn></SignIn>
+                                    <SignIn />
                                 </Route>
                             </Switch>
                         </Content>
