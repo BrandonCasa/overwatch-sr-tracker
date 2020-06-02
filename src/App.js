@@ -61,7 +61,7 @@ class App extends Component {
                                 </Route>
                             </Switch>
                         </Content>
-                        <Footer style={{ textAlign: 'center' }}>Kannatronics ©2020 Created by Brandon Casamichana</Footer>
+                        <Footer style={{ textAlign: 'center', height: '64px' }}>Kannatronics ©2020 Created by Brandon Casamichana</Footer>
                     </Layout>
                 </Router>
             </div>

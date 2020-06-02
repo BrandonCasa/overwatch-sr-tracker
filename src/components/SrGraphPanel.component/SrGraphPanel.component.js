@@ -128,6 +128,59 @@ class SrGraphPanel extends Component {
         }
 
         const onChangeRemoveRole = (value) => {
+            const db = firebase.firestore();
+            this.setState({
+                tankMatches: []
+            });
+            this.setState({
+                damageMatches: []
+            });
+            this.setState({
+                supportMatches: []
+            });
+            db.collection("users").doc(firebase.auth().currentUser.uid).get().then((snapshot) => {
+                if (snapshot.data().hasOwnProperty('tanksrdata')) {
+                    let numList = [];
+                    for (let i=1; i<=snapshot.data().tanksrdata.length; i++) {
+                        numList.push(i)
+                    }
+                    this.setState({
+                        tankMatches: numList
+                    });
+                } else {
+                    this.setState({
+                        tankMatches: []
+                    });
+                }
+
+                if (snapshot.data().hasOwnProperty('damagesrdata')) {
+                    let numList = [];
+                    for (let i=1; i<=snapshot.data().damagesrdata.length; i++) {
+                        numList.push(i)
+                    }
+                    this.setState({
+                        damageMatches: numList
+                    });
+                } else {
+                    this.setState({
+                        damageMatches: []
+                    });
+                }
+
+                if (snapshot.data().hasOwnProperty('supportsrdata')) {
+                    let numList = [];
+                    for (let i=1; i<=snapshot.data().supportsrdata.length; i++) {
+                        numList.push(i)
+                    }
+                    this.setState({
+                        supportMatches: numList
+                    });
+                } else {
+                    this.setState({
+                        supportMatches: []
+                    });
+                }
+            });
             this.setState({
                 selectedRemoveMatchRole: value
             });
